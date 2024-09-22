@@ -27,7 +27,7 @@ const decompressZip = async (arrayBuffer: ArrayBuffer) => {
     const extraFieldLength = dataView.getUint16(offset + 28, true);
     let compressedSize = dataView.getUint32(offset + 18, true);
     const pathName = new TextDecoder().decode(
-      new Uint8Array(dataView.buffer, offset + 30, fileNameLength)
+      arrayBuffer.slice(offset + 30, offset + 30 + fileNameLength)
     );
     offset += fileNameLength + extraFieldLength + 30;
     const dataOffset = offset;
@@ -129,7 +129,7 @@ const Page = () => {
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
       >
-        Drop files here
+        Drop files or zip-file here
       </div>
       <div>
         {documents.map(([name, content]) => (
